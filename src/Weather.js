@@ -1,22 +1,29 @@
 import React from "react";
 import { useEffect, useState } from "react";
 import axios from "axios";
-function Weather() {
-  const apiKey = "f56f24967aaf51182d1d4df628297c6d";
-  const [inputCity, setInputCity] = useState("");
-  const [data, setData] = useState({});
 
-  const getWetherDetails = (cityName) => {
+function Weather() {
+  const apiKey = "8c303697db32a5db5d5a54a0621a01fa";
+  // [variable , function]
+  const [inputCity, setInputCity] = useState(""); //empty string defined.
+
+  const [data, setData] = useState({}); // object value assigned to data
+
+  const getWeatherDetails = (cityName) => {
     if (!cityName) return;
+
     const apiURL =
       "https://api.openweathermap.org/data/2.5/weather?q=" +
       cityName +
       "&appid=" +
       apiKey;
+    //get request by axios. fetching data from open weather.org
+
     axios
-      .get(apiURL)
+      .get(apiURL) // http request placing
       .then((res) => {
-        console.log("response", res.data);
+        // when http request gets successful " then "
+        console.log("Response :", res.data);
         setData(res.data);
       })
       .catch((err) => {
@@ -25,12 +32,13 @@ function Weather() {
   };
 
   const handleChangeInput = (e) => {
-    console.log("value", e.target.value);
+    console.log("value", e.target.value); // extracted value from the taget event.
+
     setInputCity(e.target.value);
   };
 
   const handleSearch = () => {
-    getWetherDetails(inputCity);
+    getWeatherDetails(inputCity);
   };
   return (
     <div>
@@ -56,7 +64,7 @@ function Weather() {
         </div>
 
         {Object.keys(data).length > 0 && (
-          <div className="col-md- text-center mt-5">
+          <div className="col-md-12 text-center mt-5">
             <div className="shadow rounded wetherResultBox">
               <img
                 className="weathorIcon"
@@ -66,10 +74,10 @@ function Weather() {
 
               <h5 className="weathorCity">{data?.name}</h5>
               <h6 className="weathorTemp">
-                {(data?.main?.temp - 273.15).toFixed(0)}°C
+                {(data.main.temp - 273.15).toFixed(0)}°C
                 <span className="description">
                   {" "}
-                  {data.weather[0].description}
+                  {data?.weather[0].description}
                 </span>
               </h6>
 
